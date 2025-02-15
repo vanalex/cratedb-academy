@@ -2,9 +2,6 @@ services:
   cratedb:
     image: crate:5.5.0
     container_name: cratedb
-    environment:
-      - CRATE_DOCKER_CRATEWEB_SUPERUSER_USERNAME=admin
-      - CRATE_DOCKER_CRATEWEB_SUPERUSER_PASSWORD=pass
     ports:
       - 4200:4200
       - 5432:5432
@@ -12,16 +9,6 @@ services:
     volumes:
       - cratedb_data:/data
       - cratedb_config:/crate/config
-    command: ["crate",
-              "-Cnetwork.host=_local_, _site_",
-              "-Cauth.host_based.enabled=true",
-              "-Cauth.host_based.config.0.user=crate",
-              "-Cauth.host_based.config.0.method=trust",
-              "-Cauth.host_based.config.1.user=admin",
-              "-Cauth.host_based.config.1.method=trust",
-              "-Cdiscovery.type=single-node"]
-              # "crash", "CREATE TABLE IF NOT EXISTS test2 (ts TIMESTAMP, lifecounter INTEGER, fields OBJECT)"] <-- this line doesn't work
-
 volumes:
   cratedb_data:
     driver: local
